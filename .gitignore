@@ -1,4 +1,3 @@
-data/*
+data/
 tmp/
-
-Gemfile.lock
+coverage/

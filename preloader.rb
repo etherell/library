@@ -1,12 +1,18 @@
+# frozen_string_literal: true
+
 # Extensions
-require 'pry'
+require 'pry-byebug'
 require 'date'
 require 'yaml'
 require 'active_support/inflector'
+require 'faker'
+require 'fileutils'
+require 'singleton'
 
-# Modules
-require './modules/validator'
-require './modules/saver'
+# Mixins
+require './mixins/property_validatable'
+require './mixins/file_creatable'
+require './mixins/file_parsable'
 
 # Classes
 require './classes/author'
