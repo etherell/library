@@ -3,22 +3,18 @@
 # Contains pesonal information about author
 class Author
   include PropertyValidatable
-  include FileCreatable
-  extend FileParsable
+  extend JsonFilesManipulator::Parsable
 
-  attr_accessor :name, :biography
+  attr_reader :name, :biography
 
-  def initialize(name, biography = 'There\'s no information about the author')
+  def initialize(name:, biography: 'Information is absent')
     @name = name
     @biography = biography
+    validate_props!
+  end
+
+  def validate_props!
     validate_string!(:name)
-  end
-
-  def save_to_file(yaml_file_name = name)
-    super
-  end
-
-  def self.create_random
-    new(Faker::Book.author).save_to_file
+    validate_string!(:biography)
   end
 end

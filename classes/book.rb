@@ -3,28 +3,17 @@
 # Books that have authors
 class Book
   include PropertyValidatable
-  include FileCreatable
-  extend FileParsable
+  extend JsonFilesManipulator::Parsable
 
-  attr_accessor :title, :author
+  attr_reader :title, :author
 
-  def initialize(title, author)
+  def initialize(title:, author:)
     @title = title
     @author = author
-    validate_props
+    validate_props!
   end
 
-  def save_to_file(yaml_file_name = title)
-    super
-  end
-
-  def self.create_random
-    new(Faker::Book.title, Author.all.sample).save_to_file
-  end
-
-  private
-
-  def validate_props
+  def validate_props!
     validate_string!(:title)
     validate_instance!(:author)
   end
