@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# Books that have authors
 class Book
   include PropertyValidatable
   extend JsonFilesManipulator::Parsable
@@ -13,8 +10,10 @@ class Book
     validate_props!
   end
 
+  private
+
   def validate_props!
-    validate_string!(:title)
-    validate_instance!(:author)
+    validate_string!(title)
+    validate_instance_class!(author, Author)
   end
 end

@@ -1,0 +1,8 @@
+en:
+  errors:
+    wrong_class: 'Wrong object class'
+    negative_integer: 'Number can be only positive'
+    empty_string: "String can't be empty"
+  
+  author:
+    default_biography: Information is absent'

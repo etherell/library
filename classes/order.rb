@@ -1,7 +1,3 @@
-# frozen_string_literal: true
-
-# Contains information about book, reader of this book
-# and date when the book was taken
 class Order
   include PropertyValidatable
   extend JsonFilesManipulator::Parsable
@@ -23,7 +19,11 @@ class Order
     book.title
   end
 
+  private
+
   def validate_props!
-    %i[book reader date].each { |property_name| validate_instance!(property_name) }
+    validate_instance_class!(book, Book)
+    validate_instance_class!(reader, Reader)
+    validate_instance_class!(date, Date)
   end
 end

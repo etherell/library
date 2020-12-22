@@ -1,7 +1,3 @@
-# frozen_string_literal: true
-# frozen_string_literal: true
-
-# Contains personal information about the reader
 class Reader
   include PropertyValidatable
   extend JsonFilesManipulator::Parsable
@@ -17,9 +13,10 @@ class Reader
     validate_props!
   end
 
+  private
+
   def validate_props!
-    string_params = %i[name email city street]
-    string_params.each { |param| validate_string!(param) }
-    validate_integer!(:house)
+    [name, email, city, street].each { |property| validate_string!(property) }
+    validate_number!(house)
   end
 end

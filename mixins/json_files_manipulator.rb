@@ -1,24 +1,25 @@
-# frozen_string_literal: true
-
 module JsonFilesManipulator
-  # Gives ability to parse data from json file
+  DATA_PATH = './data/library.json'.freeze
+  DIR_NAME = 'data'.freeze
+
   module Parsable
     def all
-      property_name = name.downcase.pluralize
+      property_name = name.downcase.en.plural
 
-      data = File.read('./data/library.json')
+      data = File.read(DATA_PATH)
       library = Oj.load(data)
       library.public_send(property_name)
     end
   end
 
-  # Gives ability to save data to json file
   module Savable
-    def save_to_file
-      Dir.mkdir('data') unless Dir.exist?('data')
+    private
 
-      File.open('./data/library.json', 'w+') do |f|
-        f.write(Oj.dump(self))
+    def save_to_file
+      Dir.mkdir(DIR_NAME) unless Dir.exist?(DIR_NAME)
+
+      File.open(DATA_PATH, 'w+') do |file|
+        file.write(Oj.dump(self))
       end
     end
   end

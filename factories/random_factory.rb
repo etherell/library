@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# Creates random objects for all classes
 class RandomFactory
   class << self
     def create(obj_name)
