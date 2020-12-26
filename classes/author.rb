@@ -1,5 +1,6 @@
 class Author
   include PropertyValidatable
+  include Comparable
   extend JsonFilesManipulator::Parsable
 
   attr_reader :name, :biography

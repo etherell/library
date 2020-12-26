@@ -1,4 +1,8 @@
 class Library
+  SUPPORTED_CLASSES = [Author, Book, Order, Reader].freeze
+  NESTED_CLASSES = [Author, Book, Reader].freeze
+  CLASSES_WITH_NESTED = [Order, Book].freeze
+
   include Singleton
   include JsonFilesManipulator::Savable
 
@@ -12,21 +16,17 @@ class Library
     load_random_objects
   end
 
-  def add(object)
-    property_name = object.class.to_s.downcase.en.plural
-    property = instance_variable_get("@#{property_name}")
-    property ? (property << object) : (raise Errors::WrongClass)
-    save_to_file
+  def add(new_object)
+    validate_object_class!(new_object.class)
+    add_nested_objects_from(new_object) if just_added?(new_object)
   end
 
-  def show_top_readers(to_show_quantity = 1)
-    top_readers = count_top_by(:reader_name, to_show_quantity)
-    top_readers.map { |reader_name, books| "#{reader_name} read #{books.count} books." }.join("\n")
+  def count_top_readers(to_show_quantity = 1)
+    count_top_by(:reader_name, to_show_quantity)
   end
 
-  def show_top_books(to_show_quantity = 1)
-    top_books = count_top_by(:book_title, to_show_quantity)
-    top_books.map { |book_title, readers| "#{book_title} has #{readers.count} readers." }.join("\n")
+  def count_top_books(to_show_quantity = 1)
+    count_top_by(:book_title, to_show_quantity)
   end
 
   def show_top_books_readers_count(to_show_quantity = 3)
@@ -37,9 +37,10 @@ class Library
 
   private
 
-  def load_random_objects(quantity = 50)
+  def load_random_objects(quantity = 2)
     %w[author book reader order].each do |obj_name|
       quantity.times { add(RandomFactory.create(obj_name)) }
+      save_to_file
     end
   end
 
@@ -52,5 +53,27 @@ class Library
   def count_top_books_readers(top_books)
     orders = top_books.values.flat_map(&:itself)
     orders.map(&:reader_name).uniq.count
+  end
+
+  def just_added?(new_object)
+    property_name = new_object.class.to_s.downcase.en.plural
+    property = instance_variable_get("@#{property_name}")
+    return false if property.any? { |object| object == new_object }
+    return true if property << new_object
+  end
+
+  def add_nested_objects_from(object)
+    return unless CLASSES_WITH_NESTED.include? object.class
+
+    object.instance_variables.each do |variable|
+      property = object.instance_variable_get(variable)
+      add(property) if NESTED_CLASSES.include? property.class
+    end
+  end
+
+  def validate_object_class!(object_class)
+    return if SUPPORTED_CLASSES.include?(object_class)
+
+    raise Errors::WrongClass.new(expected: SUPPORTED_CLASSES, real: object_class)
   end
 end

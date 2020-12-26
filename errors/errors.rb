@@ -1,7 +1,15 @@
 module Errors
   class WrongClass < StandardError
-    def initialize(_msg = I18n.t('errors.wrong_class'))
+    attr_reader :expected, :real
+
+    def initialize(expected:, real:)
       super
+      @expected = expected
+      @real = real
+    end
+
+    def message
+      "Wrong entity class, expected: #{expected} got #{real}"
     end
   end
 

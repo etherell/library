@@ -1,5 +1,6 @@
 class Order
   include PropertyValidatable
+  include Comparable
   extend JsonFilesManipulator::Parsable
 
   attr_reader :book, :reader, :date

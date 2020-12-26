@@ -1,5 +1,6 @@
 class Reader
   include PropertyValidatable
+  include Comparable
   extend JsonFilesManipulator::Parsable
 
   attr_reader :name, :email, :city, :street, :house

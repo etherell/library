@@ -12,7 +12,7 @@ module PropertyValidatable
   end
 
   def validate_instance_class!(object, klass)
-    raise Errors::WrongClass unless object.is_a? klass
+    raise Errors::WrongClass.new(expected: klass, real: object.class) unless object.is_a? klass
   end
 
   def validate_string_presence!(property)
