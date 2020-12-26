@@ -9,7 +9,7 @@ module Errors
     end
 
     def message
-      "Wrong entity class, expected: #{expected} got #{real}"
+      I18n.t('errors.wrong_class', expected: expected, real: real)
     end
   end
 

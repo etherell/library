@@ -5,4 +5,3 @@ module Comparable
     end
   end
 end
-

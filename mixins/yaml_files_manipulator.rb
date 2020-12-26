@@ -1,25 +1,23 @@
-module JsonFilesManipulator
-  DATA_PATH = './data/library.json'.freeze
+module YamlFilesManipulator
+  DATA_PATH = './data/library.yaml'.freeze
   DIR_NAME = 'data'.freeze
 
   module Parsable
     def all
       property_name = name.downcase.en.plural
+      permitted_classes = [Author, Book, Library, Order, Reader, Date]
 
-      data = File.read(DATA_PATH)
-      library = Oj.load(data)
+      library = YAML.safe_load(File.read(DATA_PATH), permitted_classes: permitted_classes, aliases: true)
       library.public_send(property_name)
     end
   end
 
   module Savable
-    private
-
     def save_to_file
       Dir.mkdir(DIR_NAME) unless Dir.exist?(DIR_NAME)
 
       File.open(DATA_PATH, 'w+') do |file|
-        file.write(Oj.dump(self))
+        file.write(to_yaml)
       end
     end
   end

@@ -1,8 +1,14 @@
 en:
   errors:
-    wrong_class: 'Wrong object class'
+    wrong_class: 'Wrong entity class, expected: %{expected} got %{real}'
     negative_integer: 'Number can be only positive'
     empty_string: "String can't be empty"
   
   author:
     default_biography: Information is absent'
+
+  top:
+    readers: '%{reader_name} read %{books_count} books.'
+    books: '%{book_title} has %{readers_count} readers.'
+    books_readers_count: 'Top %{books_quantity} books has %{readers_count} readers'
+  
