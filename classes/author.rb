@@ -1,7 +1,5 @@
 class Author
   include PropertyValidatable
-  include Comparable
-  extend YamlFilesManipulator::Parsable
 
   attr_reader :name, :biography
 

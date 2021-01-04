@@ -1,13 +1,18 @@
 require_relative 'preloader'
 
-library = Library.new
+Library.new
+library = Library.load
+library.add(library.create_random('order'))
+library.add(library.create_random('book'))
+library.save
+library = Library.load
 
 top_readers = library.count_top_readers(5)
-puts top_readers.map { |name, books| I18n.t('top.readers', reader_name: name, books_count: books.count) }
+puts top_readers.map { |reader, books| I18n.t('top.readers', reader: reader.name, books_count: books.count) }
                 .join("\n")
 
 top_books = library.count_top_books(5)
-puts top_books.map { |title, readers| I18n.t('top.books', book_title: title, readers_count: readers.count) }
+puts top_books.map { |book, readers| I18n.t('top.books', book: book.title, readers_count: readers.count) }
               .join("\n")
 
 top_books = library.top_books_readers_count(5)

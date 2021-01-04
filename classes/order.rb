@@ -1,7 +1,5 @@
 class Order
   include PropertyValidatable
-  include Comparable
-  extend YamlFilesManipulator::Parsable
 
   attr_reader :book, :reader, :date
 
@@ -10,14 +8,6 @@ class Order
     @reader = reader
     @date = date
     validate_props!
-  end
-
-  def reader_name
-    reader.name
-  end
-
-  def book_title
-    book.title
   end
 
   private

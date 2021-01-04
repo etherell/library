@@ -1,7 +1,5 @@
 class Reader
   include PropertyValidatable
-  include Comparable
-  extend YamlFilesManipulator::Parsable
 
   attr_reader :name, :email, :city, :street, :house
 
